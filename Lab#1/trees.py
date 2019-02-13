@@ -19,6 +19,7 @@ number input which will translate to number of repetitions.
 
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
         
@@ -37,7 +38,7 @@ def draw_trees(ax, n, x_change, y_change, x, y ):
         draw_trees(ax, n-1, x_change / 2, y_change, x + x_change, y - y_change)
 
 
-
+start_time = time.time()
 rep = int(input('How many repetitions you want?:  '))      
 
 plt.close("all")
@@ -46,6 +47,7 @@ ax.axis('on')
 
 draw_trees(ax, rep, 100, 50, 0, 0)
 
+print("--- %s seconds ---" % (time.time() - start_time))
 ax.set_aspect(1.0)
 plt.show()
 fig.savefig('lines.png')

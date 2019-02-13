@@ -21,6 +21,7 @@ number input which will translate to number of repetitions.
 import matplotlib.pyplot as plt
 import numpy as np
 import math 
+import time
 
 def circle(center,rad):
     n = int(4*rad*math.pi)
@@ -56,7 +57,7 @@ def draw_circles2(ax,n,center,radius,w):
         draw_circles2(ax,n-1,[center[0],center[1]-radius/1.5],radius/3,w)  # y to down
         
         
-
+start_time = time.time()
 rep = int(input('How many repetitions you want?:  '))
 
     
@@ -73,6 +74,7 @@ ax.set_aspect(1.0)
 ax.axis('on')
 plt.show()
 fig.savefig('circles.png')
+print("--- %s seconds ---" % (time.time() - start_time))
 
     
     

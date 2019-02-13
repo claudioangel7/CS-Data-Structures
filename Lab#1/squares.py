@@ -18,6 +18,7 @@ which will translate to number of repetitions.
 
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
 def draw_squares(ax,n,ver,w):
@@ -26,6 +27,23 @@ def draw_squares(ax,n,ver,w):
     
     if n>0:
         axChange = [w*.25,w*.75] #what portion the x and y coordinates are changing
+        
+        
+        bot_right = np.copy(ver) 
+        bot_right[0] = bot_right[0] - axChange[0]
+        bot_right[1][0] = bot_right[1][0] - axChange[0]
+        bot_right[1][1] = bot_right[1][1] - axChange[1]
+        bot_right[2] = bot_right[2] - axChange[1]
+        bot_right[3][0] = bot_right[3][0] - axChange[1]
+        bot_right[3][1] = bot_right[3][1] - axChange[0]
+        bot_right[4] = bot_right[4] - axChange[0]
+        ax.plot(bot_right[:,0],bot_right[:,1],color='k')
+        draw_squares(ax,n-1,bot_right,w/2)
+        
+  ##########           bottom right              ###########      
+            
+       
+        
         bot_left = np.copy(ver)
         bot_left[0][0] = bot_left[0][0] + axChange[1] 
         bot_left[0][1] = bot_left[0][1] - axChange[0] 
@@ -39,25 +57,10 @@ def draw_squares(ax,n,ver,w):
         bot_left[4][1] = bot_left[4][1] - axChange[0]       
         ax.plot(bot_left[:,0],bot_left[:,1],color='k')
         draw_squares(ax,n-1,bot_left,w/2)
-        
-  ##########           bottom right              ###########      
-            
-        axChange = [w*.25,w*.75]
-        bot_right = np.copy(ver) 
-        bot_right[0] = bot_right[0] - axChange[0]
-        bot_right[1][0] = bot_right[1][0] - axChange[0]
-        bot_right[1][1] = bot_right[1][1] - axChange[1]
-        bot_right[2] = bot_right[2] - axChange[1]
-        bot_right[3][0] = bot_right[3][0] - axChange[1]
-        bot_right[3][1] = bot_right[3][1] - axChange[0]
-        bot_right[4] = bot_right[4] - axChange[0]
-        ax.plot(bot_right[:,0],bot_right[:,1],color='k')
-        draw_squares(ax,n-1,bot_right,w/2)
-        
     
   ##########           upper right              ###########      
 
-        axChange = [w*.25,w*.75]
+       
         up_right = np.copy(ver)
         up_right[0][0] = up_right[0][0] - axChange[0]
         up_right[0][1] = up_right[0][1] + axChange[1]
@@ -75,7 +78,7 @@ def draw_squares(ax,n,ver,w):
         
   ##########           upper left              ###########      
 
-        axChange = [w*.25,w*.75]
+       
         up_left = np.copy(ver) 
         up_left[0] = up_left[0] + axChange[1]
         up_left[1][0] = up_left[1][0] + axChange[1]
@@ -90,7 +93,7 @@ def draw_squares(ax,n,ver,w):
         
 
 
-        
+start_time = time.time()      
 plt.close("all") 
 orig_size = 500
 ver = np.array([[0,0],[0,orig_size],[orig_size,orig_size],[orig_size,0],[0,0]])
@@ -105,3 +108,4 @@ ax.set_aspect(1.0)
 ax.axis('on')
 plt.show()
 fig.savefig('squares.png')
+print("--- %s seconds ---" % (time.time() - start_time))
