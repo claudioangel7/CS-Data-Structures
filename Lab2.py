@@ -18,6 +18,8 @@ then sort them using 3 different methods for sorting, bubble sort, merge sort,
 and quick sort.
 """
 
+## UNCOMMENT OR COMMENT METHODS TO TRY DIFFERENT SORTS IN MEDIAN METHOD
+
 import random
 import copy
 import time
@@ -75,15 +77,13 @@ def Print(L):
     
 
 def Prepend(L, x):
-    Llen = GetLength(L)
     if IsEmpty(L):
         L.head = Node(x)
         L.tail = L.head
-        Llen = GetLength(L)
-        Llen +=1
+    
     else:
         L.head = Node(x, L.head)
-        Llen +=1
+       
     
 
 
@@ -156,8 +156,8 @@ def getMiddle(h):
 
         
 
-def sortedM(a, b):
-
+def sortedM(a, b, c):
+        
         result = None; 
         
         if a == None:
@@ -169,27 +169,31 @@ def sortedM(a, b):
         if a.item <= b.item: 
 
             result = a
-            result.next = sortedM(a.next, b)
-          
+            result.next = sortedM(a.next, b, c)
+            
         else:
         
             result = b
-            result.next = sortedM(a, b.next)
+            result.next = sortedM(a, b.next, c)
+            
+            
         
         return result
     
-  
+  ##################### MEDIAN METHOD ##################
 def Median(L):
     C = copy.deepcopy(L)
     
-#    C.head = mergeSort(C.head) ##Sorting
+    #C.head = mergeSort(C.head) ##Sorting
     
-#    bubble(C)
+    bubble(C)
     
-    quickSort(C)
+    #quickSort(C)
     
     Print(C)
     return ElementAt(C, GetLength(C)//2)
+
+ ##################### MEDIAN METHOD ##################
 
 def ElementAt(L, n):
     if GetLength(L)%2 == 1:
@@ -223,7 +227,7 @@ def printMiddle(h):
         return slow_ptr
 
 def bubble(L):
-    
+    c = 0
     unsorted = True
     
     while unsorted:
@@ -238,10 +242,13 @@ def bubble(L):
                 temp.item = temp.next.item
                 temp.next.item = t
                 unsorted = True
-            temp = temp.next      
+            temp = temp.next
+            c +=1
+    print('Comparisons for bubble: ', c)
                 
             
 def mergeSort(h):
+        c = 0
         ## Base case : if head is null 
         if h == None or h.next == None:
             return h
@@ -253,19 +260,22 @@ def mergeSort(h):
        
         middle.next = None
   
-        ## Apply mergeSort on left list 
+        #Apply mergeSort on left list 
         left = mergeSort(h)
-  
-        ## Apply mergeSort on right list 
+        
+        #Apply mergeSort on right list 
         right = mergeSort(nextofmiddle)
   
-        ## Merge the left and right lists 
-        sortedlist = sortedM(left, right)
+        #Merge the left and right list
+        sortedlist = sortedM(left, right, c)
+        
+        
         
         return sortedlist
         
         
 def quickSort(L):
+    counter = 0
     if GetLength(L) >1:
         pivot=L.head.item
         L1 = List()
@@ -281,6 +291,7 @@ def quickSort(L):
                 Append(L2, t.item)
                 
             t = t.next
+            counter +=1
             
         quickSort(L1)
         quickSort(L2)
@@ -301,6 +312,8 @@ def quickSort(L):
             L.head = L1.head
             L.tail = L2.tail
             
+        print('Comparisons for quick: ', counter)
+            
 
 def createList(L, num):
     for i in range(num):
@@ -316,7 +329,7 @@ print(' ')
 
 start_time = time.time()
 print('Sorting and returning the median of the list')
-print(Median(L))
+print('Median value: ', Median(L))
 print("--- %s seconds ---" % (time.time() - start_time))
 
 
