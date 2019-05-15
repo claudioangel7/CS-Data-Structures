@@ -1,0 +1,76 @@
+
+"""
+CS 2302 Data Structures Spring 2019
+MW 10:30-11:50 in CCSB 1.0202
+Instructor: Olac Fuentes
+TAs: Anindita Nath, Maliheh Zargaran. IA: Eduardo Lara
+Peer Leader: Erick Macik
+
+Lab 8
+Claudio Garcia 80628314
+The purpose of this program is to practice randomized algorithms
+and backtracking algorithms.
+"""
+
+import random
+import numpy as np
+import math
+import time
+
+
+
+
+t = random.uniform(-math.pi,math.pi)
+
+def trigonometric_expressions(E):
+    for i in range(len(E)):
+        for j in range(len(E)):
+            if E[i] != E[j]: #Will skip if the same expressions are compared
+                if ifEqual(E[i], E[j]): #comparing expressions
+                    print(E[i],'is equal to', E[j]) #if expressions give the same number
+                    
+def ifEqual(f1, f2,tests=1000,tolerance=0.0001):
+    for i in range(tests):
+        x1 = eval(f1) #evaluating the expressions in the array and storing them in x1 and x2
+        x2 = eval(f2)
+        if np.abs(x1-x2)>tolerance:
+            return False
+    return True 
+
+trigExpressions = ['sin(t)', 'cos(t)', 'tan(t)',
+        '-sin(t)','-cos(t)', '-tan(t)', 'sin(-t)',
+        'cos(-t)', 'tan(-t)', 'sin(t)/cos(t)', '2*sin(t/2)*cos(t/2)',
+        'sin(t) * sin(t)', '1-cos(2*t) * 1-cos(2*t)', '(1-cos(2*t)*1-cos(2*t))/2', '1/(cos(t))']
+                    
+
+def subsetBacktracking(S,last,goal):
+    if goal == 0:
+        return True, [], []
+    if goal%2 != 0 or last<0:
+        return False, [], []
+    res, s1, s2 = subsetBacktracking(S,last-1,goal-S[last]) # Take the last of S
+    
+    if res:
+        s1.append(S[last])
+        return True, s1, []
+    else:
+        print('Set:', S, 'last:', last-1, 'goal:', goal)
+        return subsetBacktracking(S,last-1,goal) # Don't take the last of S
+    
+    
+
+#start_time = time.time()
+#trigonometric_expressions(trigExpressions)
+#print('Running time for finding trigo trigExpressions: '"--- %s seconds ---" % (time.time() - start_time))
+#    
+
+
+
+S = [2,4,12,5,9]
+g = sum(S)
+print('Sum of set =', g)
+
+start_time = time.time() 
+if g%2 == 0:
+    print(subsetBacktracking(S,len(S)-1,g//2))
+print('Running time for subset sum solution with backtracking: '"--- %s seconds ---" % (time.time() - start_time))
